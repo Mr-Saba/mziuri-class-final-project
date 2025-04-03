@@ -10,7 +10,8 @@ function App() {
     <div className='app'>
       <Header />
         <Main>
-          hello სდასდასდა dasdad asdas das dsa dsad
+          dasdas
+          <LuSearch />
         </Main>
       <Footer />
     </div>
