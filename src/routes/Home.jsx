@@ -1,21 +1,19 @@
-import { useEffect, useState } from 'react'
-import { useLoader } from '../context/LoaderContext'
+// routes/Home.jsx
+import { useEffect, useState } from "react"
+import { useLoader } from "../hooks/useLoader"
 
 function Home() {
-  const [state, setState] = useState()
-  const { setLoading } = useLoader()
+  const { useSmartLoader } = useLoader()
+  const [data, setData] = useState(null)
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/todos/1')
-      .then(response => response.json())
-      .then(data => {setState(data); setLoading(false);})
+    useSmartLoader(() =>
+      fetch('https://jsonplaceholder.typicode.com/todos/1')
+        .then(res => res.json())
+    ).then(setData)
   }, [])
 
-  return (
-    <div className='home'>
-      todo - {state?.id}
-    </div>
-  )
+  return <div>🏠 Welcome to Home {data && `- ${data.title}`}</div>
 }
 
 export default Home

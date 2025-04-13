@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { useLoader } from '../context/LoaderContext'
+import { useLoader } from '../hooks/useLoader'
 
 function About() {
   const { setLoading } = useLoader()
 
   useEffect(() => {
-    setLoading(false)
+    // setLoading(false)
   }, [])
 
   return (
