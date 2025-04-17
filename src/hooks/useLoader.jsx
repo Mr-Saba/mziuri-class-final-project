@@ -1,5 +1,4 @@
-// hooks/useLoader.jsx
-import { createContext, useState, useContext, useEffect } from "react"
+import { createContext, useState, useContext, useEffect, useRef } from "react"
 import { useLocation } from "react-router-dom"
 
 const LoaderContext = createContext()
@@ -9,6 +8,7 @@ export const useLoader = () => useContext(LoaderContext)
 export const LoaderProvider = ({ children }) => {
   const [loading, setLoading] = useState(false)
   const location = useLocation()
+  // const [isSmartLoaderNeeded, setIsSmartLoaderNeeded] = useState(false)
 
   useEffect(() => {
     let isMounted = true
@@ -16,7 +16,7 @@ export const LoaderProvider = ({ children }) => {
 
     const timer = setTimeout(() => {
       if (isMounted) setLoading(false)
-    }, 1000)
+    }, 300)
 
     return () => {
       isMounted = false
@@ -31,9 +31,9 @@ export const LoaderProvider = ({ children }) => {
     const delayPromise = new Promise((resolve) => setTimeout(resolve, 1000))
     const dataPromise = asyncFn()
   
-    const [data] = await Promise.all([dataPromise, delayPromise])
-  
-    setLoading(false)
+    const [data] = await Promise.all([dataPromise, delayPromise]).then(()=>{
+      setLoading(false)
+    })
     
     return data
   }
