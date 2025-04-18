@@ -2,11 +2,10 @@ import { useEffect, useState } from 'react'
 import { useLoader } from '../hooks/useLoader'
 
 function About() {
-  const { setLoading } = useLoader()
 
-  useEffect(() => {
-    // setLoading(false)
-  }, [])
+  const { useFakeLoader } = useLoader()
+
+  useEffect(() => useFakeLoader(), [])
 
   return (
     <div className='about'>

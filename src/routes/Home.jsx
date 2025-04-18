@@ -3,14 +3,13 @@ import { useEffect, useState } from "react"
 import { useLoader } from "../hooks/useLoader"
 
 function Home() {
-  const { useSmartLoader } = useLoader()
+  const { useDataLoader } = useLoader()
   const [data, setData] = useState(null)
 
   useEffect(() => {
-    useSmartLoader(() =>
-      fetch('https://jsonplaceholder.typicode.com/todos/1')
-        .then(res => res.json())
-    ).then(setData)
+    useDataLoader(() => fetch('https://jsonplaceholder.typicode.com/todos/1')).then((data) => {
+      setData(data)
+    })
   }, [])
 
   return <div>🏠 Welcome to Home {data && `- ${data.title}`}</div>

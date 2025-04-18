@@ -15,7 +15,7 @@ function App() {
   const { loading } = useLoader()
 
   return (
-    <div className={`app ${loading ? 'fade-out' : 'fade-in'}`}>
+    <div className={`app`}>
       <Header />
       <Link to='/'>home</Link>
       <Link to='/about'>about</Link>
@@ -28,7 +28,7 @@ function App() {
         </Routes>
       </Main>
       <Footer />
-      {/* {loading && <Loading />} */}
+      <Loading loading={loading}/>
     </div>
   )
 }

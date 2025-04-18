@@ -1,4 +1,4 @@
-import { createContext, useState, useContext, useEffect, useRef } from "react"
+import { createContext, useState, useContext, useEffect } from "react"
 import { useLocation } from "react-router-dom"
 
 const LoaderContext = createContext()
@@ -7,39 +7,34 @@ export const useLoader = () => useContext(LoaderContext)
 
 export const LoaderProvider = ({ children }) => {
   const [loading, setLoading] = useState(false)
-  const location = useLocation()
-  // const [isSmartLoaderNeeded, setIsSmartLoaderNeeded] = useState(false)
+  const loadingDelay = 300
 
-  useEffect(() => {
-    let isMounted = true
+  // hook: useDataLoader (for routes that fetch data)
+  const useDataLoader = async (fetchReq) => {
+    setLoading(true)
+
+    const delayPromise = new Promise((resolve) => setTimeout(resolve, loadingDelay))
+    const dataPromise = fetchReq()
+
+    const [data] = await Promise.all([dataPromise, delayPromise])
+
+    setLoading(false)
+
+    return data.json()
+  }
+
+  // hook: useFakeLoader (for routes that simulate loading without fetch)
+  const useFakeLoader = () => {
     setLoading(true)
 
     const timer = setTimeout(() => {
-      if (isMounted) setLoading(false)
-    }, 300)
-
-    return () => {
-      isMounted = false
-      clearTimeout(timer)
-    }
-  }, [location.pathname])
-
-
-  const useSmartLoader = async (asyncFn) => {
-    setLoading(true)
-  
-    const delayPromise = new Promise((resolve) => setTimeout(resolve, 1000))
-    const dataPromise = asyncFn()
-  
-    const [data] = await Promise.all([dataPromise, delayPromise]).then(()=>{
       setLoading(false)
-    })
-    
-    return data
+      clearTimeout(timer)
+    }, loadingDelay)
   }
 
   return (
-    <LoaderContext.Provider value={{ loading, setLoading, useSmartLoader }}>
+    <LoaderContext.Provider value={{ loading, setLoading, useDataLoader, useFakeLoader }}>
       {children}
     </LoaderContext.Provider>
   )

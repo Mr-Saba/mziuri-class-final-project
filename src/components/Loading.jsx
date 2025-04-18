@@ -1,9 +1,11 @@
 import React from 'react'
 
-function Loading() {
+function Loading({loading}) {
   return (
-    <div className='loading'>
-        <div className='spinner'></div>
+    <div className={`loadingContainer ${!loading ? 'fade-out' : ''}`}>
+      <div className='half'></div>
+      <div className='half'></div>
+      <span className="spinner"></span>
     </div>
   )
 }
